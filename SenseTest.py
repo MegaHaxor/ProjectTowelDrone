@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/en#!/usr/bin/env python
 
 ## This is an experimental program to test the on off
 ## and I2C functionality
 ## of the Sensor units by Atlas Scientific. This program is written in python
-## Comment Convention is as such to explain all important steps for future implimentation
+## Comment Convention is as such to explain all important steps for future implementation
 ## David Robinson
 ## Version 0.9
 
