@@ -4,8 +4,8 @@
 ## the goal of which is to take in a number as an argument
 ## Convert that into the number of turns, and produce that on the motor.
 
-## Note: Comment Convention is to expplain all points for
-## future use in the final program. 
+## Note: Comment Convention is to explain all points for
+## future use in the final program.
 
 ## David Robinson
 ## Version 0.01
