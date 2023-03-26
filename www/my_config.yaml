@@ -1,0 +1,12 @@
+- Sensor:
+   
+    S-reading: 6
+    S-Wait: 0.5
+    S-s&l: false
+  Stepper:
+    
+    R-depth: 15
+    R-Rotation: 0.3333333333333333
+    R-speed: 0.14285714285714285
+    R-mass: 2.0
+
