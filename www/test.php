@@ -28,16 +28,18 @@ table, th, td {
 
 	fclose($json_file);
 
+	$sensor_data_obj = json_decode($json);
+	$associative = true;
+
+	$sensor_data = json_decode($json, $associative);
+
 	if ($debug) {
 		echo '<p>file contents: ', $json, '<br> <br>';
 
-		$sensor_data = json_decode($json);
 		echo 'json converted to object: ';
-		var_dump($sensor_data);
+		var_dump($sensor_data_obj);
 		echo '<br> <br>';
 
-		$associative = true;
-		$sensor_data = json_decode($json, $associative);
 		echo 'json converted to associative array: ';
 		var_dump($sensor_data);
 		echo '<br> <br> </p>';
@@ -57,11 +59,6 @@ table, th, td {
 	echo '<br> ';
 
 	if($debug) {
-		echo '<p>Python config converted to php: ';
-		$config = spyc_load_file('config.yaml');
-		var_dump($config);
-		echo '</p>';
-
 		echo "<p hidden> After much research I have learned that my parser, spyc, is 
 			not treating the 2nd line from python's output as a child of the 
 			first node because of the indentation of the leading '-'. It is
@@ -74,19 +71,57 @@ table, th, td {
 
 
 		echo '<p>my_config converted to php: ';
-		$config = spyc_load_file('my_config.yaml');
+	//	$file = fopen("my_config.json", "r");
+		$json = file_get_contents("my_config.json");
+	//	fclose($file);
+		$config = json_decode($json, false);
 		var_dump($config);
+		echo '<br>error message: ' . json_last_error_msg();
 		echo '</p>';
 
 	}
 
 	echo '<form method="POST" id="config">';
-	foreach ($config[0] as $device => $settings) {
+	
+	if (is_array($config)) {
+		$config = $config[0];
+	}
+	
+	foreach ($config as $device => $settings) {
 		echo "<p> $device settings</p>";
+		
+		if (is_array($settings)) {
+			$settings = $settings[0];
+		}
+		
 		foreach ($settings as $name => $setting) {
-			echo '<label for="' . $name . '">' . $name . '</label>';
-			echo '<input type="text" id="' . $name . '">';
-			echo '<br><br>';
+			if (is_array($setting) or is_object($setting)) {
+			/*	foreach ($setting as $key => $value) {
+					if (is_array($value) or is_object($value)) {
+						echo "<h1>too much nesting in config file!!! >:(</h1>";
+					}
+				}
+			 */
+			}
+
+			if (is_array($setting)) {
+			/*	echo '<input type="multiple" id="' . $name . '">';
+				echo '<br><br>';
+			 */
+			}
+			else if (is_object($setting)) {
+			/*	foreach ($setting as $key => $value) {
+					echo '<label for="' . $key . '">' . $key . '</label>';
+					echo '<input type="text" id="' . $key . '" value="' . $value . '">';
+					echo '<br><br>';
+				}
+			 */
+			}
+			else {
+				echo '<label for="' . $name . '">' . $name . '</label>';
+				echo '<input type="text" id="' . $name . '" value="' . $setting . '">';
+				echo '<br><br>';
+			}
 		}
 	}
 	echo '<input type="submit">'; 

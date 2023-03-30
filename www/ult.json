@@ -23,14 +23,18 @@
 		"Sensor":
 		{
 			"not mapped to array": true,
-			"array of options": 
+			"array of options":
 			[
+				1,
+				2,
+				3,
+				"I hope this doesnt happen",
 				{
-					"I hope this doesn't happen":
+					"I really hope this doesn't happen":
 					[
-						{
-							"a": "a"
-						}
+						"a",
+						"b",
+						"c"
 					]
 				}
 			],
