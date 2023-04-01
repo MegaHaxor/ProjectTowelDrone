@@ -1,0 +1,17 @@
+{
+    "Device_A": {
+        "foo": 12,
+        "bar": "String",
+        "baz": false,
+        "string": false,
+        "bz": true
+    },
+    "Device_B": {
+        "Set me": -999,
+        "idk": "",
+        "option": "there is always a choice"
+    },
+    "Sensor": {
+        "not mapped to array": true
+    }
+}

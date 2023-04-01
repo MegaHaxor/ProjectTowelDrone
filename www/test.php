@@ -18,7 +18,7 @@ table, th, td {
 <?php
 	include 'Spyc.php';
 
-	$debug = true;	// cant be changed lol
+	$debug = true;
 
 	$filename = 'data.json';
 
@@ -58,6 +58,9 @@ table, th, td {
 	echo '</tr> </tbody> </table>';
 	echo '<br> ';
 
+	$config_file = "my_config.json";
+	$config_json = file_get_contents($config_file);
+	$config = json_decode($config_json, $associative=false);
 	if($debug) {
 		echo "<p hidden> After much research I have learned that my parser, spyc, is 
 			not treating the 2nd line from python's output as a child of the 
@@ -71,17 +74,13 @@ table, th, td {
 
 
 		echo '<p>my_config converted to php: ';
-	//	$file = fopen("my_config.json", "r");
-		$json = file_get_contents("my_config.json");
-	//	fclose($file);
-		$config = json_decode($json, false);
 		var_dump($config);
-		echo '<br>error message: ' . json_last_error_msg();
+		echo '<br>json error message: ' . json_last_error_msg();
 		echo '</p>';
 
 	}
 
-	echo '<form method="POST" id="config">';
+	echo '<form method="post" action="configSubmit.php" id="config">';
 	
 	if (is_array($config)) {
 		$config = $config[0];
@@ -95,32 +94,21 @@ table, th, td {
 		}
 		
 		foreach ($settings as $name => $setting) {
-			if (is_array($setting) or is_object($setting)) {
-			/*	foreach ($setting as $key => $value) {
-					if (is_array($value) or is_object($value)) {
-						echo "<h1>too much nesting in config file!!! >:(</h1>";
-					}
-				}
-			 */
-			}
-
-			if (is_array($setting)) {
-			/*	echo '<input type="multiple" id="' . $name . '">';
-				echo '<br><br>';
-			 */
-			}
-			else if (is_object($setting)) {
-			/*	foreach ($setting as $key => $value) {
-					echo '<label for="' . $key . '">' . $key . '</label>';
-					echo '<input type="text" id="' . $key . '" value="' . $value . '">';
+			if (!is_array($setting) and !is_object($setting)) {
+				if (is_bool($setting)) {
+					echo '<label for="' . $device . '[' . $name . ']">' . $name . '</label>';
+					echo '<select name="' . $device . '[' . $name . ']">';
+					echo '<option>true</option>';
+					$selected = $setting ? "" : "selected";
+					echo "<option $selected>false</option>"; 
+					echo "</select>";
 					echo '<br><br>';
 				}
-			 */
-			}
-			else {
-				echo '<label for="' . $name . '">' . $name . '</label>';
-				echo '<input type="text" id="' . $name . '" value="' . $setting . '">';
-				echo '<br><br>';
+				else {
+					echo '<label for="' . $device . '[' . $name . ']">' . $name . '</label>';
+					echo '<input type="text" name="' . $device . '[' . $name . ']" value="' . $setting . '">';
+					echo '<br><br>';
+				}
 			}
 		}
 	}
