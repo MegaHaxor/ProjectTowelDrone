@@ -18,7 +18,7 @@ table, th, td {
 <?php
 	include 'Spyc.php';
 
-	$debug = true;
+	$debug = false;
 
 	$filename = 'data.json';
 
