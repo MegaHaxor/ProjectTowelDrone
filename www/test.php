@@ -15,13 +15,49 @@ table, th, td {
 </head>
 
 <body>
+
+<thead>
 <?php
-	include 'Spyc.php';
+
+	ini_set('display_errors', '1');
+	ini_set('display_startup_errors', '1');
+	error_reporting(E_ALL);
 
 	$debug = false;
+	$db = new SQLite3("readings.db");
+	$result = $db->query('select * from data;');
+	
+	echo '<table>';
 
+	echo '<thead>';	
+	echo '<tr>';
+
+	$row = $result->fetchArray($mode = SQLITE3_ASSOC);
+
+	foreach ($row as $key => $value) {
+		echo "<th>$key</th>";
+	}
+
+	echo '</tr>';
+	echo '</thead>';
+
+	echo '<tbody>';
+	do {
+		echo "<tr>";
+
+		foreach ($row as $key => $value) {
+			echo "<td>$value</td>";
+		}
+		
+		echo "</tr>";
+	} while ($row = $result->fetchArray($mode = SQLITE3_ASSOC));
+	
+	echo '</tbody>';
+	echo '</table>';
+	
 	$filename = 'data.json';
 
+	/*
 	$json_file = fopen($filename, 'r');
 
 	$json = file_get_contents($filename);
@@ -57,7 +93,7 @@ table, th, td {
 	}
 	echo '</tr> </tbody> </table>';
 	echo '<br> ';
-
+*/
 	$config_file = "my_config.json";
 	$config_json = file_get_contents($config_file);
 	$config = json_decode($config_json, $associative=false);
