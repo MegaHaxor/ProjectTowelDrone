@@ -23,37 +23,61 @@ table, th, td {
 	ini_set('display_startup_errors', '1');
 	error_reporting(E_ALL);
 
+	// thank you stack overflow
+
 	$debug = false;
 	$db = new SQLite3("readings.db");
 	$result = $db->query('select * from data;');
+
+	echo "<h2>Sensor Readings</h1>";
 	
 	echo '<table>';
 
 	echo '<thead>';	
 	echo '<tr>';
 
-	$row = $result->fetchArray($mode = SQLITE3_ASSOC);
+    $headers = array (
+        "id",
+        "Temperature",
+        "ORP",
+        "pH",
+        "DO",
+        "Date",
+        "Time",
+        "Location",
+        "Video"
+    );
 
-	foreach ($row as $key => $value) {
-		echo "<th>$key</th>";
+	foreach ($headers as $header) {
+		echo "<th>".$header."</th>";
 	}
+
+	$csv_outname = 'drone_sensor_data.csv';
+	$csv_outfile = fopen($csv_outname, 'w');
+	fputcsv($csv_outfile, $headers);
 
 	echo '</tr>';
 	echo '</thead>';
 
 	echo '<tbody>';
-	do {
+	
+	$row = 0;
+	while ($row = $result->fetchArray($mode = SQLITE3_ASSOC))
+	{
 		echo "<tr>";
 
 		foreach ($row as $key => $value) {
 			echo "<td>$value</td>";
 		}
+		fputcsv($csv_outfile, array_values($row));
 		
 		echo "</tr>";
-	} while ($row = $result->fetchArray($mode = SQLITE3_ASSOC));
-	
+	}
 	echo '</tbody>';
 	echo '</table>';
+	echo "<a href=$csv_outname>Download csv</a>";
+
+	// table_to_csv(
 	
 	$filename = 'data.json';
 

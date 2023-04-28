@@ -10,17 +10,23 @@ Write your query in this editor and press "Run" button to execute it.
 /* Enter your sql queries here */
 
 CREATE TABLE data (
-           id INTEGER PRIMARY KEY AUTOINCREMENT,
+           id INTEGER PRIMARY KEY,
 		   temp DOUBLE,
 		   ORP DOUBLE,
 		   pH DOUBLE,
-		   dissolved_oxygen DOUBLE, 
+		   DO DOUBLE, 
 		   "date" DATE, 
 		   start_time TIME,
 		   gps VARCHAR (255),
 		   video VARCHAR (255) 
 		   );
 
+
+INSERT INTO data VALUES
+(1,1.0,2.0,3.0,4.0,'04-11-23','14:56',NULL,NULL);
+
+INSERT INTO data VALUES
+(2,1,2,3,4,'04-11-23','15:56:00','10.123426 E 99.554321 W','/usr/somewhere/video.idk');
 
 insert into data values 
 (22, 24.4444, 143.3,5.43, 0.1, '04-13-23', '19:40', '10.123426 N 99.554321 W', '/usr/somewhere/video.idk');
@@ -33,3 +39,9 @@ insert into data values
 
 insert into data values 
 (25, 43, -0.1234097,3.432123, 4.43123, '05-13-23', '19:40', '10.123426 S 99.554321 E', '/usr/somewhere/video3.idk');
+
+INSERT INTO data VALUES
+(26,38.16,-877.799,13.9049,0.0,'02-28-23','03:33:33','22.222222 N 33.333333 E','/usr/somewhere/video5.idk');
+
+insert into data (temp, pH, ORP, DO, gps, video) values 
+(3,2,1,4, 'over there', NULL);
